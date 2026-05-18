@@ -24,8 +24,8 @@ export default async function DashboardPage() {
       .limit(10),
   ])
 
-  const allCars = allCarsResult.data ?? []
-  const recentCars = recentCarsResult.data ?? []
+  const allCars = (allCarsResult.data ?? []) as Pick<Car, 'status' | 'brand'>[]
+  const recentCars = (recentCarsResult.data ?? []) as Car[]
 
   // คำนวณ KPIs
   const kpis: DashboardKPIs = {
@@ -74,7 +74,7 @@ export default async function DashboardPage() {
       {/* Recent Cars */}
       <div>
         <h2 className="text-base font-semibold text-gray-900 mb-3">อัปเดตล่าสุด</h2>
-        <RecentCarsTable cars={recentCars as Car[]} />
+        <RecentCarsTable cars={recentCars} />
       </div>
     </div>
   )

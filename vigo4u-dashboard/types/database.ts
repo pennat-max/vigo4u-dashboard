@@ -95,6 +95,7 @@ export interface Database {
         Row: Car
         Insert: Omit<Car, 'id' | 'created_at' | 'updated_at'>
         Update: Partial<Omit<Car, 'id' | 'created_at' | 'updated_at'>>
+        Relationships: []
       }
     }
   }

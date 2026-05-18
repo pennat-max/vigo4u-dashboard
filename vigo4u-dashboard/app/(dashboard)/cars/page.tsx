@@ -45,20 +45,22 @@ export default async function CarsPage({ searchParams }: PageProps) {
   const { data, error } = await query.limit(500)
 
   // ดึง distinct brands + countries สำหรับ filter dropdown
-  const { data: brandRows } = await supabase
+  const { data: brandRowsData } = await supabase
     .from('cars')
     .select('brand')
     .not('brand', 'is', null)
     .order('brand')
 
-  const { data: countryRows } = await supabase
+  const { data: countryRowsData } = await supabase
     .from('cars')
     .select('country')
     .not('country', 'is', null)
     .order('country')
 
-  const brands = [...new Set(brandRows?.map((r) => r.brand).filter(Boolean) ?? [])] as string[]
-  const countries = [...new Set(countryRows?.map((r) => r.country).filter(Boolean) ?? [])] as string[]
+  const brandRows = (brandRowsData ?? []) as Pick<Car, 'brand'>[]
+  const countryRows = (countryRowsData ?? []) as Pick<Car, 'country'>[]
+  const brands = Array.from(new Set(brandRows.map((r) => r.brand).filter(Boolean))) as string[]
+  const countries = Array.from(new Set(countryRows.map((r) => r.country).filter(Boolean))) as string[]
 
   return (
     <CarsClient
